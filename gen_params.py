@@ -39,7 +39,24 @@ def slurm(input_path):
         if args[3] > 0 and (args[2] != 1 or args[1] != args[3]):
             continue
         
-        SWEEP = "1-" + str(len(all_combinations))
+        SWEEP = ""
+        for ind, params in all_combinations:
+            x = params[0]
+            y = params[1]
+            z = params[2]
+            if args[3] > 0:
+                if ((x * y * z * 8.0) / (10 ** 9)) > 38:
+                    continue
+            else:
+                if ((x * y * z * 8.0) / (10 ** 9)) * args[1] > 85:
+                    continue
+            SWEEP += str(ind + 1) + ","
+            
+        if len(SWEEP) > 0 and SWEEP[-1] == ",":
+            SWEEP = SWEEP[:-1]
+            
+        if len(SWEEP) == 0:
+            continue
         
         new_input = input.replace("<PARAM_NNODES>", str(args[0])) \
                               .replace("<PARAM_NTASKSPERNODE>", str(args[1])) \
