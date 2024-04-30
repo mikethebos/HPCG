@@ -77,7 +77,8 @@ echo Running hpcg in $TMP_WORKING_DIR...
 if [ "$SLURM_GPUS_PER_NODE" -gt "0" ]; then
     srun --nodes $SLURM_NNODES --ntasks-per-node $SLURM_NTASKS_PER_NODE --cpus-per-task $OMP_NUM_THREADS --gpus-per-node $SLURM_GPUS_PER_NODE --mpi=pmi2 singularity run --nv --bind .:/my-dat-files,$SLURM_SUBMIT_DIR:/my-scripts /my-scripts/hpcg.sh --dat /my-dat-files/hpcg.dat > hpcg.out
 else
-    srun --nodes $SLURM_NNODES --ntasks-per-node $SLURM_NTASKS_PER_NODE --cpus-per-task $OMP_NUM_THREADS --gpus-per-node $SLURM_GPUS_PER_NODE --mpi=pmi2 xhpcg hpcg.dat > hpcg.out
+    srun --nodes $SLURM_NNODES --ntasks-per-node $SLURM_NTASKS_PER_NODE --cpus-per-task $OMP_NUM_THREADS --gpus-per-node $SLURM_GPUS_PER_NODE --mpi=pmi2 xhpcg hpcg.dat
+    mv HPCG-Benchmark_3.1_*.txt hpcg.out
 fi
 echo hpcg finished
 
