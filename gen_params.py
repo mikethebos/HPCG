@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Inspired from work by Fricke, Jencka, and Adams
+# Inspired from work by Jencka and Adams
 
 import os
 import sys
