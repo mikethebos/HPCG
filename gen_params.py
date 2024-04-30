@@ -6,9 +6,9 @@ import os
 import sys
 from itertools import product
 
-X = range(10, 2000, 200)
-Y = range(10, 2000, 200)
-Z = range(10, 2000, 200)
+X = range(8, 176, 16)
+Y = range(8, 176, 16)
+Z = range(8, 176, 24)
 TIME = (300,)
 SLURM_NNODES = (1, 2, 4, 6, 8, 16)
 SLURM_NTASKS_PER_NODE = (1, 2, 4, 8, 16, 32)
@@ -40,10 +40,15 @@ def slurm(input_path):
             continue
         
         SWEEP = ""
-        for ind, params in all_combinations:
+        valid = 0
+        for ind, params in enumerate(all_combinations):
             x = params[0]
             y = params[1]
             z = params[2]
+
+            if float(min(x, y, z)) / float(max(x, y, z)) < 0.125:
+                continue
+
             if args[3] > 0:
                 if ((x * y * z * 8.0) / (10 ** 9)) > 38:
                     continue
@@ -51,7 +56,10 @@ def slurm(input_path):
                 if ((x * y * z * 8.0) / (10 ** 9)) * args[1] > 85:
                     continue
             SWEEP += str(ind + 1) + ","
-            
+            valid = valid + 1
+
+        print("valid: ", valid)
+
         if len(SWEEP) > 0 and SWEEP[-1] == ",":
             SWEEP = SWEEP[:-1]
             
