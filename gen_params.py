@@ -6,14 +6,14 @@ import os
 import sys
 from itertools import product
 
-X = range(8, 176, 16)
-Y = range(8, 176, 16)
-Z = range(8, 176, 24)
-TIME = (300,)
+X = range(8, 80, 8)
+Y = range(8, 96, 8)
+Z = range(8, 96, 8)
+TIME = (90,)
 SLURM_NNODES = (1, 2, 4, 6, 8, 16)
 SLURM_NTASKS_PER_NODE = (1, 2, 4, 8, 16, 32)
 OMP_THREADS = (1, 2, 4, 8, 16, 32)
-GPUS_PER_NODE = (0, 1, 2)
+GPUS_PER_NODE = (0, 1)
 
 all_combinations = list(product(X, Y, Z, TIME))
 
